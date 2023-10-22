@@ -1,15 +1,17 @@
-import {
-    FlatList,
-    Image,
-    Text,
-    TouchableOpacity,
-    View,
-    StyleSheet,
-    Modal,
-    Pressable
-  } from "react-native";
-  
-  import { useState } from "react";
+// import {
+//     FlatList,
+//     Image,
+//     Text,
+//     TouchableOpacity,
+//     View,
+//     StyleSheet,
+//     Modal,
+//     Pressable
+//   } from "react-native";
+
+import { FlatList, Text, View, Image, Button, ButtonText } from '@gluestack-ui/themed';
+import { useState } from 'react';
+import { TouchableOpacity, Modal } from 'react-native';
   
   // Dummmy Data (Array of Object) 
   const datas = [
@@ -84,46 +86,45 @@ import {
   // Functional Component
   const List = () => {
     // Modal State
-    const [modalVisible, setModalVisible] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [itemSelect, setItemSelect] = useState('kosong');
     
-    console.log(itemSelect);
+    // console.log(itemSelect);
 
     // Arrow Function with destructured argument
     const renderItem = ({ item }) => {
       // console.log(item);
       return (
-        // Modal Component
-        <TouchableOpacity style={styles.view} onPress={() => {setModalVisible(true); setItemSelect(item)}}>
-          <View>
-            <Modal        
-              animationType="fade"
+        <TouchableOpacity onPress={() => {setShowModal(true); setItemSelect(item)}}>
+          <View mx={15}>
+            <Modal
+              visible={showModal}
               transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-              setModalVisible(!modalVisible);}}>
-              <View style={styles.modalView}>
-              <Image style={styles.modalImage} source={{uri: itemSelect.image }}/>
+            >
+              <View
+                justifyContent= 'center'
+                alignItems= 'center'
+                margin= {20}
+                backgroundColor= 'white'
+                borderRadius= {20}
+                padding= {20}
+                onRequestClose={() => {setShowModal(!showModal)}} 
+              >
+              <Image source={{uri: itemSelect.image }} alt='wleo'             
+                resizeMode='contain'
+                h= {300}
+                w= '100%'
+              />
               <Text>{itemSelect ? itemSelect.title : 'wleowleo'}</Text>
-                <View style={{ alignItems: 'center' }}>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)}>
-                    <Text style={{ padding: 5 }}>Close</Text>
-                  </Pressable>
-                </View>
-              </View>    
+              <Button my={15} onPress={() => setShowModal(!showModal)}>
+                <ButtonText>Close</ButtonText>
+              </Button>
+              </View>
             </Modal>
-            <Image source={{ uri: item.image }} style={styles.image} />
-            <Text style={styles.text}>{item.title}</Text>
+            <Image w='100%' h={200} my={10} source={{ uri: item.image }} alt='wleo' />
+            <Text fontSize={18}>{item.title}</Text>
           </View>
         </TouchableOpacity>
-      // <TouchableOpacity style={styles.view} onPress={() => alert("Pressed")}>
-      //   <View>
-      //     <Image source={{ uri: item.image }} style={styles.image} />
-      //     <Text style={styles.text}>{item.title}</Text>
-      //   </View>
-      // </TouchableOpacity>
       );
     };
   
@@ -136,56 +137,6 @@ import {
     );
   };
   
-  
-  // Styles
-  const styles = StyleSheet.create({
-    view: {
-      padding: 15,
-      borderBottomColor: "#dddddd",
-      borderBottomWidth: 1,
-    },
-    image: {
-      height: 200,
-      width: null,
-    },
-    text: {
-      fontSize: 18,
-      paddingTop: 10,
-    },
-    modalView: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: 20,
-      backgroundColor: 'white',
-      borderRadius: 20,
-      padding: 20,
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-    },
-    button: {
-      borderRadius: 20,
-      padding: 10,
-      elevation: 2,
-    },
-    buttonOpen: {
-      backgroundColor: '#F194FF',
-    },
-    buttonClose: {
-      backgroundColor: '#2196F3',
-    },
-    modalImage: {
-      height: 200,
-      width: '70%',
-      borderRadius: 8,
-      marginBottom: 20,
-    },
-  });
+
   
   export default List;
